@@ -14,7 +14,7 @@ Our model aims to take in a vast amount of Tweets, and aims to improve over time
 
 To find out more specific information about our product, make sure to check out an informational powerpoint: https://lwsd-my.sharepoint.com/:p:/g/personal/s-yli_lwsd_org/EbOeLte12GdFgSttistTyRMBTnKhR65jTgmed5ufxWSHXg?e=xsvGTX
 
-If you are interested in the data used and collected, make sure to find the following Excel Spreadsheet with my own personalized data: https://tinyurl.com/58vtyswv
+If you are interested in the data used and collected, make sure to find the following Excel Spreadsheet with my own personalized data: https://tinyurl.com/msyw5abc
 
 # Source Code
 The source code is in the file with the name "SourceCode.py". 
