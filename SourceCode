@@ -1,0 +1,17 @@
+/* The following is the source code for the project */
+
+#@title Run this to download data and prepare our environment! { display-mode: "form" }
+# Run this every time you open the spreadsheet
+
+import matplotlib
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from sklearn import metrics
+from collections import Counter
+from sklearn.metrics import classification_report
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
