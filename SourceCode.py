@@ -84,47 +84,47 @@ def evaluate(y_test,y_pred, c):
     print (len(y_test),len(y_pred))
 
     for index,(true_category, predicted_category) in enumerate(zip(y_test,y_pred)):
-        if true_category == c:
-...           if (true_category == predicted_category):
-...               true_positives += 1
-...           else:
-...               false_negatives += 1
-...           else:
-...           if predicted_category == c:
-...               false_positives += 1
-...           else:
-...               true_negatives +=1
-... 
-...     if true_positives == 0:
-...         precision = 0.0
-...         recall = 0.0
-...         f1 = 0.0
-...     else:
-...         precision = true_positives / (true_positives + false_positives)
-...         recall = true_positives / (true_positives + false_negatives)
-...         f1 = 2 * precision * recall / (precision + recall)
-... 
-...     print(c)
-...     print("Precision:", precision)
-...     print("Recall:", recall)
-...     print("F1:", f1)
-...     print()
-... 
-...     return f1
-... 
-...     # The following are predictions for the entire dataset. 
-...     y_pred = [classify_rb(tweet) for tweet in X_test]
-...     food_f1 = evaluate(y_test,y_pred, "Food")
-...     water_f1 = evaluate(y_test,y_pred, "Water")
-...     energy_f1 = evaluate(y_test,y_pred, "Energy")
-...     medical_f1 = evaluate(y_test,y_pred, "Medical")
-...     none_f1 = evaluate(y_test,y_pred, "None")
-... 
-...     # Compute F1 Score
-...     average_f1 = (food_f1 + energy_f1 + medical_f1 + water_f1 + none_f1) / 5
-...     print("Average F1:", average_f1)
-... 
-...     # Test the computational method
+      if true_category == c:
+        if (true_category == predicted_category):
+               true_positives += 1
+           else:
+               false_negatives += 1
+           else:
+           if predicted_category == c:
+               false_positives += 1
+           else:
+               true_negatives +=1
+ 
+     if true_positives == 0:
+         precision = 0.0
+         recall = 0.0
+         f1 = 0.0
+     else:
+         precision = true_positives / (true_positives + false_positives)
+         recall = true_positives / (true_positives + false_negatives)
+         f1 = 2 * precision * recall / (precision + recall)
+ 
+     print(c)
+     print("Precision:", precision)
+     print("Recall:", recall)
+     print("F1:", f1)
+     print()
+ 
+     return f1
+ 
+     # The following are predictions for the entire dataset. 
+     y_pred = [classify_rb(tweet) for tweet in X_test]
+     food_f1 = evaluate(y_test,y_pred, "Food")
+     water_f1 = evaluate(y_test,y_pred, "Water")
+     energy_f1 = evaluate(y_test,y_pred, "Energy")
+     medical_f1 = evaluate(y_test,y_pred, "Medical")
+     none_f1 = evaluate(y_test,y_pred, "None")
+ 
+     # Compute F1 Score
+     average_f1 = (food_f1 + energy_f1 + medical_f1 + water_f1 + none_f1) / 5
+     print("Average F1:", average_f1)
+ 
+     # Test the computational method
     print(classification_report(y_test, y_pred, target_names=['Energy', 'Food', 'Medical', 'None', 'Water']))
 
     # DataSet Implementation 
