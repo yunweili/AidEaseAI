@@ -51,16 +51,16 @@ def classify_rb(tweet):
 
   tweet = str(tweet).lower() 
 
-  if "medicine" in tweet or "first aid" in tweet:
-    return "Medical"
-  elif "power" in tweet or "battery" in tweet:
-    return "Energy"
-  elif "water" in tweet or "bottled" in tweet:
-    return "Water"
-  elif "food" in tweet or "perishable" in tweet or "canned" in tweet:
-    return "Food"
-  else:
-    return "None"
+if "medicine" in tweet or "first aid" in tweet:
+  return "Medical"
+elif "power" in tweet or "battery" in tweet:
+  return "Energy"
+elif "water" in tweet or "bottled" in tweet:
+  return "Water"
+elif "food" in tweet or "perishable" in tweet or "canned" in tweet:
+  return "Food"
+else:
+  return "None"
 
 # Rule Classifier on Predictions
 
