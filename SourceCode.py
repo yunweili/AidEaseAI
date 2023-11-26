@@ -296,11 +296,11 @@
     print(vectorizer.transform([tweet_03]))
 
     # We now want to implement Linear Regression into our AI Model
-    tweet1 = 'we desperately need food'
+    tweet1 = 'We Need Food'
     label1 = "Food"
-    tweet2 = 'please send water'
+    tweet2 = 'Please Send Water'
     label2 = 'Water'
-    tweet3 = 'we are very thirsty'
+    tweet3 = 'We Are Very Thirsty, We Need Water'
     label3 = 'Water'
     
     train_tweets = [tweet1, tweet2]
