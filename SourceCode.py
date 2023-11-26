@@ -1,87 +1,87 @@
-Python 3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license()" for more information.
-/* The following is the source code for the project. If you are interested in what some of the code means, I have put occasional explainers for large sections of code so that the main idea is able to be derived*/
+    Python 3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)] on win32
+    Type "help", "copyright", "credits" or "license()" for more information.
+    /* The following is the source code for the project. If you are interested in what some of the code means, I have put occasional explainers for large sections of code so that the main idea is able to be derived*/
 
-import matplotlib
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+    import matplotlib
+    import numpy as np
+    import pandas as pd
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    from sklearn import metrics
+    from collections import Counter
+    from sklearn.metrics import classification_report
+    from sklearn.feature_extraction.text import CountVectorizer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import train_test_split
+    
+    # We need to load the Data
+    disaster_tweets = pd.read_csv('disaster_data.csv',encoding ="ISO-8859-1")
+    
+    # This is the filter for Profanity
+    !pip install better_profanity
+    
+    from better_profanity import profanity
+    
+    disaster_tweets['contains_profanity'] = disaster_tweets['text'].apply(lambda x: profanity.contains_profanity(x))
+    disaster_clean = disaster_tweets[disaster_tweets['contains_profanity'] == False]
+    disaster_tweets = disaster_clean
+    disaster_tweets.head()
+    
+    tweet_set = disaster_tweets['text']
+    tweet_labels = disaster_tweets['category']
+    X_train, X_test, y_train, y_test = train_test_split(tweet_set, tweet_labels, test_size=0.2, random_state=1)
+    
+    # This is to generate labels for our plot
+    tweet_categories = list(set(tweet_labels))
+    
+    # This is to generate counts for each tweet type
+    category_counts = [np.sum(disaster_tweets["category"] == i) for i in tweet_categories]
+    
+    # This is to generate a bar plot for our tweet labels that has different colors
+    [plt.bar(x = tweet_categories[i], height = category_counts[i] ) for i in range(len(tweet_categories))]
+    
+    # This is to make the plot interpretable with x and y labels + title
+    plt.xlabel('TWEET CATEGORY')
+    plt.ylabel('N OBSERVSATIONS')
+    plt.title('A distribution of tweet categories in our data set', y=1.05);
+    print(Counter(tweet_labels))
+    
+    def classify_rb(tweet):
+    
+      tweet = str(tweet).lower() 
+    
+    if "medicine" in tweet or "first aid" in tweet:
+      return "Medical"
+    elif "power" in tweet or "battery" in tweet:
+      return "Energy"
+    elif "water" in tweet or "bottled" in tweet:
+      return "Water"
+    elif "food" in tweet or "perishable" in tweet or "canned" in tweet:
+      return "Food"
+    else:
+      return "None"
+    
+    # Rule Classifier on Predictions
+    
+    def show_pred(y_test,y_pred):
+      table=pd.DataFrame([[t for t in X_test],y_pred, y_test]).transpose()
+      table.columns = ['Tweet', 'Predicted Category', 'True Category']
+      print("Percent Correct: %.2f" % (sum(table['Predicted Category'] == table['True Category'])/len(table['True Category'])))
+      return table
+    
+    y_pred = [classify_rb(tweet) for tweet in X_test] # a list of predictions
+    show_pred(y_test,y_pred)
+    
+        # The following is to calculate the precision, recall and F1 for a single category. 
 
-from sklearn import metrics
-from collections import Counter
-from sklearn.metrics import classification_report
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-
-# We need to load the Data
-disaster_tweets = pd.read_csv('disaster_data.csv',encoding ="ISO-8859-1")
-
-# This is the filter for Profanity
-!pip install better_profanity
-
-from better_profanity import profanity
-
-disaster_tweets['contains_profanity'] = disaster_tweets['text'].apply(lambda x: profanity.contains_profanity(x))
-disaster_clean = disaster_tweets[disaster_tweets['contains_profanity'] == False]
-disaster_tweets = disaster_clean
-disaster_tweets.head()
-
-tweet_set = disaster_tweets['text']
-tweet_labels = disaster_tweets['category']
-X_train, X_test, y_train, y_test = train_test_split(tweet_set, tweet_labels, test_size=0.2, random_state=1)
-
-# This is to generate labels for our plot
-tweet_categories = list(set(tweet_labels))
-
-# This is to generate counts for each tweet type
-category_counts = [np.sum(disaster_tweets["category"] == i) for i in tweet_categories]
-
-# This is to generate a bar plot for our tweet labels that has different colors
-[plt.bar(x = tweet_categories[i], height = category_counts[i] ) for i in range(len(tweet_categories))]
-
-# This is to make the plot interpretable with x and y labels + title
-plt.xlabel('TWEET CATEGORY')
-plt.ylabel('N OBSERVSATIONS')
-plt.title('A distribution of tweet categories in our data set', y=1.05);
-print(Counter(tweet_labels))
-
-def classify_rb(tweet):
-
-  tweet = str(tweet).lower() 
-
-if "medicine" in tweet or "first aid" in tweet:
-  return "Medical"
-elif "power" in tweet or "battery" in tweet:
-  return "Energy"
-elif "water" in tweet or "bottled" in tweet:
-  return "Water"
-elif "food" in tweet or "perishable" in tweet or "canned" in tweet:
-  return "Food"
-else:
-  return "None"
-
-# Rule Classifier on Predictions
-
-def show_pred(y_test,y_pred):
-  table=pd.DataFrame([[t for t in X_test],y_pred, y_test]).transpose()
-  table.columns = ['Tweet', 'Predicted Category', 'True Category']
-  print("Percent Correct: %.2f" % (sum(table['Predicted Category'] == table['True Category'])/len(table['True Category'])))
-  return table
-
-y_pred = [classify_rb(tweet) for tweet in X_test] # a list of predictions
-show_pred(y_test,y_pred)
-
-    # The following is to calculate the precision, recall and F1 for a single category. 
-
-def evaluate(y_test,y_pred, c):
-
-    true_positives = 0.0
-    true_negatives = 0.0
-    false_positives = 0.0
-    false_negatives = 0.0
-    print (len(y_test),len(y_pred))
+    def evaluate(y_test,y_pred, c):
+    
+        true_positives = 0.0
+        true_negatives = 0.0
+        false_positives = 0.0
+        false_negatives = 0.0
+        print (len(y_test),len(y_pred))
 
     for index,(true_category, predicted_category) in enumerate(zip(y_test,y_pred)):
       if true_category == c:
